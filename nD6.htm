@@ -1,0 +1,36 @@
+<div id="field"></div>
+<button onclick="rollDice(1)">1D6</button>
+<button onclick="rollDice(2)">2D6</button>
+<button onclick="rollDice(3)">3D6</button>
+<button onclick="rollDice(4)">4D6</button>
+
+<style>
+p, button {font-size: 60px;}
+p {padding: 0.2em 1em; margin: auto;}
+button {width: 20%; margin: 0.2em;}
+</style> 
+
+<script>
+const diceChars = "⚀⚁⚂⚃⚄⚅"
+const field = document.getElementById("field")
+let parity = false
+
+const d6 = () => Math.floor(6 * Math.random() + 1)
+
+function rollDice(n) {
+  let dice = Array(n).fill().map(d6)
+  let result = dice.map(x => diceChars[x - 1]).join("")
+  let sum = dice.reduce((a, b) => a + b)
+  write(result + " = " + sum)
+}
+
+function write(text) {
+  let line = field.appendChild(document.createElement("p"))
+  line.textContent = text
+  if (parity) line.style.backgroundColor = "#dddddd"
+  parity = !parity
+
+  let lines = field.getElementsByTagName("p")
+  if (lines.length > 7) field.removeChild(lines[0])
+}
+</script>
